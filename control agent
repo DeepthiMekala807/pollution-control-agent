@@ -1,0 +1,45 @@
+# %% [markdown]
+### **Utility-Based Pollution Control Agent**
+# This agent monitors pollution levels and selects the best control strategy 
+# based on utility scores considering cost, effectiveness, and environmental impact.
+
+# %% [code]
+import random
+
+class PollutionControlAgent:
+    def __init__(self):
+        self.pollution_level = random.randint(50, 300) 
+        self.weather = random.choice(["Clear", "Rainy", "Windy"])
+        self.health_risk = random.randint(1, 10)  # 1 (Low) to 10 (High)
+        self.strategies = {
+            "Traffic Control": {"effectiveness": 50, "cost": 30, "impact": 20},
+            "Industrial Regulation": {"effectiveness": 70, "cost": 50, "impact": 40},
+            "Green Energy Promotion": {"effectiveness": 60, "cost": 40, "impact": 10},
+            "Public Awareness": {"effectiveness": 40, "cost": 20, "impact": 5},
+        }
+
+    def compute_utility(self, strategy):
+        """Computes the utility score for a given strategy."""
+        s = self.strategies[strategy]
+        return (s["effectiveness"] - s["impact"]) / s["cost"] 
+
+    def select_best_strategy(self):
+        """Finds the strategy with the highest utility score."""
+        utilities = {s: self.compute_utility(s) for s in self.strategies}
+        best_strategy = max(utilities, key=utilities.get)
+        return best_strategy, utilities[best_strategy]
+
+    def control_pollution(self):
+        """Selects the best pollution control strategy and returns it."""
+        strategy, score = self.select_best_strategy()
+        return f"Selected Strategy: {strategy} with Utility Score: {score:.2f}"
+
+# %% [code]
+# **Run the Pollution Control Agent**
+agent = PollutionControlAgent()
+print(f"Current Pollution Level: {agent.pollution_level}")
+print(f"Weather Condition: {agent.weather}")
+print(f"Health Risk Level: {agent.health_risk}")
+print(agent.control_pollution()) 
+
+   
